@@ -1,7 +1,7 @@
 resource "aws_cloudwatch_event_rule" "eventbridge" {
   count               = lookup(var.triggers, "event_bridge", null) != null ? 1 : 0
   name                = "function_eventbridge_${var.function_name}"
-  schedule_expression = var.triggers["event_bridge"]["schedule_expression"]
+  schedule_expression = lookup(lookup(var.triggers, "event_bridge", {}), "schedule_expression", null)
 }
 
 resource "aws_cloudwatch_event_target" "eventbridge_target" {
